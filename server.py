@@ -1,38 +1,52 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import urlparse, parse_qs
+from twilio.rest import Client
+from dotenv import load_dotenv
+import os
 
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
-        # Parse the URL and query parameters
         parsed_path = urlparse(self.path)
         query_params = parse_qs(parsed_path.query)
 
-        # Check if the path is /oauthredirect and handle accordingly
         if parsed_path.path == "/oauthredirect":
             self.handle_oauth_redirect(query_params)
         else:
             self.handle_not_found()
 
     def handle_oauth_redirect(self, params):
-        # Log the parameters
-        print("Received parameters:")
-        for key, value in params.items():
-            print(f"{key}: {value}")
+        # Prepare SMS content
+        sms_content = "\n".join([f"{key}: {','.join(value)}" for key, value in params.items()])
+        self.send_sms(sms_content)
 
         # Respond to the client
         self.send_response(200)
         self.send_header('Content-type', 'text/plain')
         self.end_headers()
-        self.wfile.write(b"Parameters received and logged.")
+        self.wfile.write(b"SMS sent with parameters.")
 
     def handle_not_found(self):
-        # Respond with a 404 Not Found if path is not /oauthredirect
         self.send_response(404)
         self.send_header('Content-type', 'text/plain')
         self.end_headers()
         self.wfile.write(b"Not Found")
 
+    def send_sms(self, message):
+        # Your Account SID and Auth Token from twilio.com/console
+        account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
+        auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
+        client = Client(account_sid, auth_token)
+
+        # Sending SMS
+        message = client.messages.create(
+            body=message,
+            from_=os.environ.get('TWILIO_NUMBER'),
+            to=os.environ.get('DST_NUMBER')
+        )
+        print(message.sid)
+
 def run(server_class=HTTPServer, handler_class=SimpleHTTPRequestHandler, port=8000):
+    load_dotenv()
     server_address = ('', port)
     httpd = server_class(server_address, handler_class)
     print(f"Server starting on port {port}...")
