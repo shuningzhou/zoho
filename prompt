@@ -1,0 +1,33 @@
+i want to use python with cairo to draw a guitar fretboard, 
+
+1: 24 frets and 6 strings. 
+
+2: the output should be a png file. 
+
+3: Fret width should be 96 pixels 
+
+4: the neck width should be 200. 
+
+5: the image background should be white. string should be black. no other colors needed 
+
+6: the nut should have a width = 4 pixels, other fret should have width of 2 pixels 
+
+7: the nut should be on the left, and the 24th fret should be on the right 
+
+8: total fretboard width should be 96x24 + 4 + 2x24, height should be 200 
+
+9: the image should have a 25 pixel padding around the fretboard
+
+10: there should be 6 horizontal lines for each string, the hight E string is the line at the top, the low E string is the line at the bottom
+
+11: there should be 25 vertical line 1 for the nut, 24 for the frets
+
+12: grey circles should be added as inlays
+
+13: fret label should be black and below the fretboard, font should be adjustable. fret label should be 1, 2, 3...24 and be at the center of its fret horizontally.
+
+14: use webcolors for the color
+
+15: frentboard should be white, strings should be black, fret and nut should be black, inlay should grey, background should be black
+
+16: fret start at the nut, 1, 2, 3...24
