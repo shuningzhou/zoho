@@ -124,17 +124,17 @@ C_STROKE_WIDTH = 8
 C_RADIUS = 21
 
 c_data = [(5, 6, "6"),
-          (8, 6, "1"),
+          (8, 6, "R"),
           (5, 5, "2"),
           (7, 5, "3"),
           (5, 4, "5"),
           (7, 4, "6"),
-          (5, 3, "1"),
+          (5, 3, "R"),
           (7, 3, "2"),
           (5, 2, "3"),
           (8, 2, "5"),
           (5, 1, "6"),
-          (8, 1, "1")]
+          (8, 1, "R")]
 
 def draw_circles_from_data(ctx, data):
     for fret, string, label_text in data:
