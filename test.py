@@ -12,16 +12,17 @@ C_TEXT_COLOR = (1, 1, 1)      # White
 ORANGE_COLOR = (1, 0.5, 0.2)    # Vibrant Orange
 BLUE_COLOR = (0, 0, 1)          # Vivid Blue
 GREEN_COLOR = (0, 0.502, 0)     # Rich Green
+WHITE_COLOR = (1, 1, 1)     # white Green
 
 # --- Custom Drawing Settings ---
-C_RADIUS = 21                 # Radius for the custom circles
-C_STROKE_WIDTH = 16           # Stroke width for the custom circles
+C_RADIUS = 30                 # Radius for the custom circles
+C_STROKE_WIDTH = 12           # Stroke width for the custom circles
 
 # --- Settings ---
 NUM_FRETS = 24
 NUM_STRINGS = 6
 FRET_WIDTH = 96
-NECK_WIDTH = 425
+NECK_WIDTH = 450
 FONT_SIZE = 18
 NUT_WIDTH = 28
 PADDING = 100
@@ -111,7 +112,7 @@ def draw_fret_circle2(ctx, color, radius, fret, string, label_text, label_color,
 
     # Draw label
     ctx.select_font_face(FONT, cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_BOLD) 
-    ctx.set_font_size(radius)  
+    ctx.set_font_size(radius-7)  
     ctx.set_source_rgb(*label_color) 
 
     text_extents = ctx.text_extents(label_text)
@@ -119,13 +120,40 @@ def draw_fret_circle2(ctx, color, radius, fret, string, label_text, label_color,
     ctx.show_text(label_text)
 
 # Data and function call to draw circles based on predefined data
-c_data = [(5, 6, "6"), (8, 6, "R"), (5, 5, "2"), (7, 5, "3"), (5, 4, "5"), (7, 4, "6"), (5, 3, "R"), (7, 3, "2"), (5, 2, "3"), (8, 2, "5"), (5, 1, "6"), (8, 1, "R")]
+c_data_pentatonic_c_pos1 = [
+
+    (6, 5, "6/A", ORANGE_COLOR, 0, WHITE_COLOR), (6, 8, "R/C", BLUE_COLOR, 0, WHITE_COLOR), 
+    (5, 5, "2/D", ORANGE_COLOR, 0, WHITE_COLOR), (5, 7, "3/E", ORANGE_COLOR, 0, WHITE_COLOR), 
+    (4, 5, "5/G", ORANGE_COLOR, 0, WHITE_COLOR), (4, 7, "6/A", ORANGE_COLOR, 0, WHITE_COLOR), 
+    (3, 5, "R/C", BLUE_COLOR, 0, WHITE_COLOR), (3, 7, "2/D", ORANGE_COLOR, 0, WHITE_COLOR), 
+    (2, 5, "3/E", ORANGE_COLOR, 0, WHITE_COLOR), (2, 8, "5/G", ORANGE_COLOR, 0, WHITE_COLOR), 
+    (1, 5, "6/A", ORANGE_COLOR, 0, WHITE_COLOR), (1, 8, "R/C", BLUE_COLOR, 0, WHITE_COLOR)
+
+    ]
+
+c_data_pentatonic_cm_pos5 = [
+
+    (6, 6, "6/A", GREEN_COLOR, 0, WHITE_COLOR), (6, 8, "R/C", GREEN_COLOR, 0, WHITE_COLOR), 
+    (5, 6, "2/D", GREEN_COLOR, 0, WHITE_COLOR), (5, 8, "3/E", GREEN_COLOR, 0, WHITE_COLOR), 
+    (4, 5, "5/G", GREEN_COLOR, 0, WHITE_COLOR), (4, 8, "6/A", GREEN_COLOR, 0, WHITE_COLOR), 
+    (3, 5, "R/C", GREEN_COLOR, 0, WHITE_COLOR), (3, 8, "2/D", GREEN_COLOR, 0, WHITE_COLOR), 
+    (2, 6, "3/E", GREEN_COLOR, 0, WHITE_COLOR), (2, 8, "5/G", GREEN_COLOR, 0, WHITE_COLOR), 
+    (1, 6, "6/A", GREEN_COLOR, 0, WHITE_COLOR), (1, 8, "R/C", GREEN_COLOR, 0, WHITE_COLOR)
+
+    ]
 
 def draw_circles_from_data(ctx, data):
-    for fret, string, label_text in data:
-        draw_fret_circle2(ctx, ORANGE_COLOR, C_RADIUS, fret, string, label_text, C_TEXT_COLOR, BLUE_COLOR, C_STROKE_WIDTH)
+    for string, fret, label_text, main_color, stroked, stroke_color in data:
+        stroke_width = 0
+        if stroked:
+            stroke_width = C_STROKE_WIDTH
+        draw_fret_circle2(ctx, main_color, C_RADIUS, fret, string, label_text, C_TEXT_COLOR, stroke_color, stroke_width)
 
-draw_circles_from_data(ctx, c_data)
+# -------------- custom drawing -----------------
+
+
+draw_circles_from_data(ctx, c_data_pentatonic_c_pos1)
+draw_circles_from_data(ctx, c_data_pentatonic_cm_pos5)
 
 # --- Save Image ---
 surface.write_to_png("fret.png")
