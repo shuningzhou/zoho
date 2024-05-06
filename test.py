@@ -1,5 +1,20 @@
 import cairo
 
+# 1 = HIGH E
+# 2 = B
+# 3 = G
+# 4 = D
+# 5 = A
+# 6 = LOW E
+
+# --- notes ---
+NOTES_1 = ["F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"]
+NOTES_2 = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+NOTES_3 = ["G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G"]
+NOTES_4 = ["D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D"]
+NOTES_5 = ["A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A"]
+NOTES_6 = ["F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B", "C", "C#", "D", "D#", "E"]
+
 # --- Color Definitions ---
 BACKGROUND_COLOR = (1, 1, 1)  # White
 FRETS_COLOR = (0, 0, 0)       # Black
@@ -25,7 +40,7 @@ FRET_WIDTH = 96
 NECK_WIDTH = 450
 FONT_SIZE = 18
 NUT_WIDTH = 28
-PADDING = 100
+PADDING = 150
 FRET = 3
 INLAY_RADIUS = 10
 FONT = "Arial Rounded MT Bold"
@@ -151,9 +166,18 @@ def draw_circles_from_data(ctx, data):
 
 # -------------- custom drawing -----------------
 
+c_test = [
 
-draw_circles_from_data(ctx, c_data_pentatonic_c_pos1)
-draw_circles_from_data(ctx, c_data_pentatonic_cm_pos5)
+    (6, 0, "6/A", GREEN_COLOR, 0, WHITE_COLOR),
+    (5, 0, "2/D", GREEN_COLOR, 0, WHITE_COLOR),
+    (4, 0, "5/G", GREEN_COLOR, 0, WHITE_COLOR),
+    (3, 0, "R/C", GREEN_COLOR, 0, WHITE_COLOR), 
+    (2, 0, "3/E", GREEN_COLOR, 0, WHITE_COLOR),
+    (1, 0, "6/A", GREEN_COLOR, 0, WHITE_COLOR)
+
+    ]
+
+draw_circles_from_data(ctx, c_test)
 
 # --- Save Image ---
 surface.write_to_png("fret.png")
